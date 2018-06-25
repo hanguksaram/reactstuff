@@ -18,9 +18,7 @@ const store = configureStore()
 //         const state = store.getState()
 //         console.log(getVisibleExpenses(state.expenses, state.filters))}
 // )
-store.dispatch(addExpense({description : 'Water bill', amount: 500, createdAt: -100}))
-store.dispatch(addExpense({description : 'Gas bill', amount: 4000, createdAt: 12000000000 }))
-store.dispatch(setTextFilter({text: 'Gas'}))
+
 
 // let timeoutId =  setTimeout(function some()  {
 //     let random = Math.random().toFixed(1)
