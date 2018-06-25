@@ -1,9 +1,15 @@
 //entry -> output
 const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+module.exports = (env) => {
+
+  const isProduction = env === "production"
+  const CSSExtract = new ExtractTextPlugin('styles.css')
 
 
-module.exports = {
-  entry: ['react-dates/initialize',
+  return {
+    entry: ['react-dates/initialize',
   'react-dates/lib/css/_datepicker.css', './src/app.js'],
   output: {
       path: path.join(__dirname, 'public'),
@@ -19,19 +25,35 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-
-        ]
+        use: CSSExtract.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+            
+          ]
+        })
       }
     ]
     
   },
-  devtool:'cheap-module-eval-source-map',
+  plugins:[
+    CSSExtract
+  ],
+  devtool: isProduction ? 'source-map' : 'inline-source-map',
   devServer:{
     contentBase: path.join(__dirname, 'public'),
     historyApiFallback: true
   } 
+  }
 }
+

@@ -12,7 +12,7 @@ import 'react-dates/lib/css/_datepicker.css'
 
 
 const store = configureStore()
-
+console.log("hello there")
 // store.subscribe(
 //     () => {
 //         const state = store.getState()
