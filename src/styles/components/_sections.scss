@@ -1,0 +1,33 @@
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 80px;
+    height: 100vh;
+    
+  }
+
+  section:not(.main):nth-child(even){
+    background-color: black;
+    color: white;
+    
+  }
+
+  section:not(.main):nth-child(odd){
+    background-color: #fff;
+   
+  }
+  section:not(.main):nth-child(odd) h1{
+ 
+    color: black;
+  }
+  #contacts {
+ 
+    background-color: #e9ccce;
+  }
+  
+  section h1 {
+    margin-bottom: 15px;
+    font-size: 50px;
+    
+  }
