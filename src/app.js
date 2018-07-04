@@ -1,20 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import AppRouter, {history} from './routes/AppRouter'
+
 import configureStore from './store/configureStore'
-import getVisibleExpenses from './selectors/expenses'
-import {startSetExpenses} from './actions/expenses'
-import {login, logout} from './actions/auth'
+import {Header} from './components/Header'
+import {Main} from './components/Main'
+import {Projects} from './components/Projects'
+import {Skills} from './components/Skills'
+import {About} from './components/About'
+import {Contacts} from './components/Contacts'
+import {Footer} from './components/Footer'
 import 'normalize.css/normalize.css'
 import './styles/styles.scss'
 import 'react-dates/lib/css/_datepicker.css'
-import { firebase } from './firebase/firebase'
 
+import LoginPage  from './components/LoginPage'
+
+import {getDivPositionsOnResize, changeNavColorsOnScroll} from './actions/headerFooterAnimation'
+
+let evenSectionsHeights, oddSectionsHeights, joinSecitonHeights, navs, windowHeight
+
+  
 
 
 const store = configureStore()
-console.log("hello there")
+
 // store.subscribe(
 //     () => {
 //         const state = store.getState()
@@ -31,35 +40,107 @@ console.log("hello there")
 // }, 3000)
 
 const jsx = (
-   <Provider store={store}>
-        <AppRouter />
-   </Provider> 
+   <div>
+        <Header/>
+        <Main/>
+        <Projects/>
+        <Skills/>
+        <About/>
+        <Contacts/>
+        <Footer/>
+    </div>
+  
 )
-let hasRendered = false;
-const renderApp = () => {
-    if (!hasRendered){
-        ReactDOM.render(jsx, document.getElementById("app"))
-        hasRendered = true
-    }
-}
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"))
+
+// let hasRendered = false;
+// const renderApp = () => {
+//     if (!hasRendered){
+//         ReactDOM.render(jsx, document.getElementById("app"))
+//         hasRendered = true
+//     }
+// }
 
 
 
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        store.dispatch(login(user.uid))
-        store.dispatch(startSetExpenses()).then(() => {
-            renderApp()
-            if (history.location.pathname === '/') {
-                history.push('/dashboard')
-            }
-        })
+    ReactDOM.render(jsx, document.getElementById("app"))
+    
+    const eventHandler = () => {
+        evenSectionsHeights = Array.from(document.querySelectorAll('section:not(.main):nth-child(even)'))
+                                    .map((elem) =>  {
+                                        
+                                        return {offsetTop: elem.offsetTop,
+                                                height: elem.offsetHeight + elem.offsetTop}})
+        // oddSectionsHeights = Array.from(document.querySelectorAll('section:not(.main):nth-child(odd)'))
+        //                             .map((elem) => {elem.offsetTop, elem.offsetHeight})
+        joinSecitonHeights = evenSectionsHeights  
+        navs = document.getElementsByClassName('navs');
+        windowHeight = window.innerHeight;
+
+       
+      }
+  window.addEventListener('load', eventHandler)
+  window.addEventListener('resize', eventHandler) 
+    
+    
+    
+       
+  window.addEventListener("scroll", () => {
+    
+    const scrollPostion = document.documentElement.scrollTop;
+    const boolObj = {main: false,
+    second: {
+        header: false,
+        footer: false
+    }}
+    for (let i = 0; i < joinSecitonHeights.length; i ++){
+        // if (navs[0].classList.contains('navs--modified')) navs[0].classList.remove('navs--modified')
+    
+    if ((joinSecitonHeights[i].offsetTop <= scrollPostion && scrollPostion <= joinSecitonHeights[i].height )){
+        navs[0].classList.add('navs--modified')
+        
+        boolObj.main = true;
+        boolObj.second.header = true;
+            
+        }
+    
+      
+        // if (navs[1].classList.contains('navs--modified')) navs[1].classList.remove('navs--modified')
+    if ( joinSecitonHeights[i].offsetTop <= scrollPostion + windowHeight && scrollPostion + windowHeight <= joinSecitonHeights[i].height){
+        navs[1].classList.add('navs--modified')
+        boolObj.main = true;
+        boolObj.second.footer = true;
     }
-    else {
-        store.dispatch(logout())
-        renderApp()
-        history.push('/')
+   
+        if (boolObj.main == true) break;
+    // else {
+    //     
+       
+    //    
+  
+    // }
     }
+    if ( boolObj.second.header == false) navs[0].classList.remove('navs--modified')
+    if ( boolObj.second.footer == false) navs[1].classList.remove('navs--modified')
 })
+    
+
+
+
+
+// firebase.auth().onAuthStateChanged((user) => {
+//     if (user) {
+//         store.dispatch(login(user.uid))
+//         store.dispatch(startSetExpenses()).then(() => {
+//             renderApp()
+//             if (history.location.pathname === '/') {
+//                 history.push('/dashboard')
+//             }
+//         })
+//     }
+//     else {
+//         store.dispatch(logout())
+//         renderApp()
+//         history.push('/')
+//     }
+// })
 

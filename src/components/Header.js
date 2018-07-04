@@ -1,42 +1,17 @@
-// import React from 'react'
-// import {NavLink} from 'react-router-dom'
-// import { connect } from 'react-redux'
-// import { startLogout } from '../actions/auth'
 
-// export const Header= (props) => (
-//     <header>
-//         <h1>Expensify</h1>
-//         <NavLink to="/dashboard" activeClassName="is-active">Dashboard</NavLink>
-//         <NavLink to="/create"activeClassName="is-active">Create Expense</NavLink>
-//         <NavLink to="/help"activeClassName="is-active">Help</NavLink>
-//         <button onClick={() => {props.dispatch(startLogout())}}>Logout</button>
-
-//     </header>
-// )
-// //results r equails
-// // const mapDispatchToProps = (dispatch) => ({
-// //     startLogout : () => dispatch(startLogout())
-// // })
-
-// // export default connect(undefined, mapDispatchToProps)(Header)
-// export default connect()(Header)
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { startLogout } from '../actions/auth';
 
-export const Header = ({ startLogout }) => (
-  <header>
-  <h1>Expensify</h1>
-          <NavLink to="/dashboard" activeClassName="is-active">Dashboard</NavLink>
-           <NavLink to="/create"activeClassName="is-active">Create Expense</NavLink>
-          <NavLink to="/help"activeClassName="is-active">Help</NavLink>
-          <button onClick={() => {startLogout()}}>Logout</button>
-  </header>
+
+export const Header = () => (
+  <header className = "navs">
+  <h2><a href="#"> javaboy</a></h2>
+    <nav>
+      <li><a href="#projects"> Projects</a></li>
+      <li><a href="#skills"> Skills</a></li>
+      <li><a href="#about"> About</a></li>
+      <li><a href="#contacts"> Contacts</a></li>
+    </nav>
+</header>
 );
 
-const mapDispatchToProps = (dispatch) => ({
-  startLogout: () => dispatch(startLogout())
-});
 
-export default connect(undefined, mapDispatchToProps)(Header);

@@ -1,11 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {startLogin} from '../actions/auth'
+import Spinner from './Spinner'
 
 
 const LoginPage = (props) => (
-    <div>
-        <button onClick={() => {props.dispatch(startLogin())}}>LogIn</button>
+    <div className = 'box-layout'>
+        <div className = 'box-layout__box'>
+            <Spinner/>
+        </div>
     </div>
 )
 
@@ -14,4 +15,4 @@ const LoginPage = (props) => (
 //     startLogin : () => dispatch(startLogin())
 // })
 
-export default connect(/*undefined, mapDispatchToProps*/)(LoginPage)
+export default LoginPage
